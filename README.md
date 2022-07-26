@@ -8,3 +8,7 @@ Sanity is a “content platform”. They provide a content management system we 
 
 1. Initial setup of Next.js is the same as prior weeks. The completed project for reference is here: https://github.com/flaviocopes/bootcamp-2022-week-15-blog
 2. There is no authentication added to the project.
+
+## Create a Simple Blog Design
+
+1. Add some basic JSX to 'index.js' - basic web page with "Welcome to my blog" and some fake blog entries.
