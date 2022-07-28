@@ -258,8 +258,19 @@ import { client } from 'lib/sanity';
 1. Import 'next/link' and add the slug link to each entry in 'index.js'.
 2. Create a posts folder in 'pages' and a 'pages/posts/[slug].js'. This file uses 'getStaticPaths': "This is a dynamic route ([slug].js), and since we want to generate this page at build time, we need to get all the possible paths for this page."
 3. In 'getStaticProps' we get the single blog post by adding the slug information from the page parameters.
-4. NOTE: In the '[slug].js' page, the temporary paragraph for showing the body doesn't show - I changed the text to black to make it show - the real body text will be added next.
+4. NOTE: In the '[slug].js' page, the temporary paragraph for showing the body doesn't show - I changed the text to black to make it show - the real body text will be added next. UPDATE: it was the black background and white text style carried over from the last lesson... fixed!
 
 ```
 <p className="text-black">Body Goes Here</p>
 ```
+
+## Render the Post Body
+
+1. This has to be done via a library since the body is a rich-text object:
+
+```
+npm install @portabletext/react
+```
+
+2. Import the 'PortableText' library in 'index.js' and then use that on the body.
+3. Theoretically, if you add another post (and don't forget to set the date), it's automatically picked up by what's running on port 3000 - seems like I needed to refresh the page to get them to show.
