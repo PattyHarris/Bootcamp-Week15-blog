@@ -250,5 +250,16 @@ npm install next-sanity
 ```
 import { client } from 'lib/sanity';
 ```
-4. Add a 'getStaticProps()' method to 'index.js' - this is used for pre-rendering data at build time.  Here we'll use the Sanity client to fetch the lists of posts from Sanity.
-5. 
+
+4. Add a 'getStaticProps()' method to 'index.js' - this is used for pre-rendering data at build time. Here we'll use the Sanity client to fetch the lists of posts from Sanity.
+
+## Add the Single Post Page
+
+1. Import 'next/link' and add the slug link to each entry in 'index.js'.
+2. Create a posts folder in 'pages' and a 'pages/posts/[slug].js'. This file uses 'getStaticPaths': "This is a dynamic route ([slug].js), and since we want to generate this page at build time, we need to get all the possible paths for this page."
+3. In 'getStaticProps' we get the single blog post by adding the slug information from the page parameters.
+4. NOTE: In the '[slug].js' page, the temporary paragraph for showing the body doesn't show - I changed the text to black to make it show - the real body text will be added next.
+
+```
+<p className="text-black">Body Goes Here</p>
+```
