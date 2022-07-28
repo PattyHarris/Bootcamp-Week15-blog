@@ -197,3 +197,58 @@ export default {
 };
 
 ```
+
+## Configure Environment Variables
+
+1. We need to add the following environment variables:
+
+```
+# For Next
+NEXT_PUBLIC_SANITY_PROJECT_ID=""
+NEXT_PUBLIC_SANITY_DATASET="production"
+SANITY_API_TOKEN=""
+SANITY_PREVIEW_SECRET=""
+
+# For Studio
+SANITY_STUDIO_API_PROJECT_ID=""
+SANITY_STUDIO_API_DATASET="production"
+```
+
+Both PROJECT*ID*\* values are the Sanity project ID (from the dashboard).
+
+2. From the Settings->API tab, add a new API Token. Use 'blog' for the name and select the 'Editor' permissions option. Save the token to 'SANITY_API_TOKEN'.
+
+## Start the Sanity Studio
+
+1. In the 'studio' folder, run:
+
+```
+sanity start
+```
+
+1. If compiled successfully, the message tells you to go to http://localhost:3333. Login with the same method that was used to create your Sanity account. This connects you to a 'dev server' - or Studio home page.
+
+## Add a Post
+
+1. From the Studio home page we launched in the last step click 'Post'.
+2. Click the 'pencil' icon (top left corner) to bring up a form with the fields we defined in the schema.
+3. For the 'slug', we just entered 'hello-world'.
+4. Click the green 'Publish' button when you're finished.
+5. Click the 'Content' panel on the left - the new post should be there.
+
+## Show the Posts on the Website
+
+1. Install the next-sanity library.
+
+```
+npm install next-sanity
+```
+
+2. Add a Sanity client handler in 'lib/sanity.js'.
+3. Import this client into 'index.js':
+
+```
+import { client } from 'lib/sanity';
+```
+4. Add a 'getStaticProps()' method to 'index.js' - this is used for pre-rendering data at build time.  Here we'll use the Sanity client to fetch the lists of posts from Sanity.
+5. 
