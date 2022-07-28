@@ -274,3 +274,64 @@ npm install @portabletext/react
 
 2. Import the 'PortableText' library in 'index.js' and then use that on the body.
 3. Theoretically, if you add another post (and don't forget to set the date), it's automatically picked up by what's running on port 3000 - seems like I needed to refresh the page to get them to show.
+
+## Deploy to Vercel
+
+1. This took a bit of work - in order for your repository to be visible to Vercel, you need to either make all repositories visible or selected repositories visible. I have set it up so only selected repositories are visible (forgot about this). To add an additional repository, go to Settings under your github account (not on a individual repository). Under Settings, find Applications. I have Netlify and Vercel setup. You need to click the Configure button on Vercel to add an additional repository.
+2. I then had issues with Vercel giving me a 404 after I imported the repository. I logged out and then back in - all then worked.
+3. We added the environment variables from the .env file - and then clicked Deploy. So far so good.
+4. Click on 'Go to Dashboard' - there you'll find the URL for the app.
+
+## Configure Sanity to Run on Vercel
+
+1. Just to be clear, we have a Sanity client running on port 3033 - that's working along with the app running on port 3000. We need to have Sanity running in conjunction with Vercel.
+2. First, run the following:
+
+```
+sanity deploy
+```
+
+I used 'Bootcamp-Week15-blog' for the Studio hostname. Really not sure what this is supposed to be..
+After completion:
+
+```
+Success! Studio deployed to https://bootcamp-week15-blog.sanity.studio/
+```
+
+As indicated in the lesson: "And the studio just works. But you might want to have it run on your own domain.".
+
+3. Add a 'vercel.json' to the project folder with the following contents:
+
+```
+{
+  "rewrites": [{ "source": "/studio/(.*)", "destination": "/studio/index.html" }]
+}
+```
+
+4. In 'studio/sanity.json' add the basePath property in this way:
+
+```
+....
+{
+  "root": true,
+  "project": {
+    "name": "blog",
+    "basePath": "/studio"
+  },
+  ...
+```
+
+5. Add your Vercel app domain to white list it by running the command - replace the example here with the domain of the app...
+
+```
+sanity cors add https://blog-example-sanity.vercel.app --credentials
+```
+
+6. Generate the public 'studio' folder:
+
+```
+cd studio
+sanity build ../public/studio -y;
+```
+
+7. Commit and push the changes and after the Vercel rebuild you should see the studio on '/studio'.
