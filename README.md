@@ -284,7 +284,7 @@ npm install @portabletext/react
 
 ## Configure Sanity to Run on Vercel
 
-1. Just to be clear, we have a Sanity client running on port 3033 - that's working along with the app running on port 3000. We need to have Sanity running in conjunction with Vercel.
+1. Just to be clear, we have a Sanity client running on port 3333 - that's working along with the app running on port 3000. We need to have Sanity running in conjunction with Vercel.
 2. First, run the following:
 
 ```
@@ -335,3 +335,62 @@ sanity build ../public/studio -y;
 ```
 
 7. Commit and push the changes and after the Vercel rebuild you should see the studio on '/studio'.
+
+## Publishing workflow for updates
+
+1. Added a new post, but it didn't show up....so here we are. You can force a re-deploy from the Vercel dashboard - click on Deployments and then use the hamburger menu on the far right of the particular project to re-deploy.
+2. Add a “deploy” trigger in Sanity Studio directly:
+
+```
+cd studio
+sanity install dashboard-widget-vercel
+sanity install @sanity/dashboard
+```
+
+3. Add to the 'studio/sanity.json' the 'implements' and 'path' data:
+
+```
+....
+  "parts": [
+    //.......
+    {
+      "implements": "part:@sanity/dashboard/config",
+      "path": "dashboardConfig.js"
+    }
+  ]
+  ....
+```
+
+4. Create the 'dashboardConfig.js' file:
+
+```
+export default {
+  widgets: [
+    {
+      name: 'vercel',
+      layout: {
+        width: 'full',
+      },
+    },
+  ],
+}
+```
+
+This file goes in '/studio'
+
+From the terminal, run 'sanity start' and now you'll see a 'Dashboard' link on the to of the website running on port 3333.
+
+5. Click the 'Dashboard' and 'Create a New Target'. First, as alway, Flavio does stuff out of order, you need a token and some other data (all is recorded to the .env file in comments):
+
+   1. Generate an account token from Vercel -> Settings -> Tokens.
+   2. Find the project ID under Vercel Dashboard -> (project) -> Settings -> General
+   3. Under the project Settings->Git, create a deploy hook. Give it a name, using the 'main' branch. I used 'Bootcamp-Week15-blog-hook'.
+   4. Now 'Create a New Target' with this data. You will see the last few deployments.
+
+6. Click “Deploy Production” to trigger a deploy (button on the bottom).
+7. Now, after you change the blog, you'll click the above to update the website.
+8. It's a bit confusing - so now we're back to running on port 3333 using the 'Deploy Production' button? I think you need to click the link that shows on the list of deployments...not the link on the Vercel project page. The new link is - notice the 'git' and 'main' added...
+
+```
+https://bootcamp-week15-blog-git-main-pattyharris.vercel.app/
+```
